@@ -3,6 +3,7 @@ export class CreateFruitDto {
   readonly color: string;
   readonly description: string;
   readonly subTitle: string;
+  readonly image: string;
   readonly general: {
     readonly gen_name: string;
     readonly gen_genes: string;
