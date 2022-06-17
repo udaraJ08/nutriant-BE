@@ -20,8 +20,8 @@ export class FruitsService {
     return this.fruitModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} fruit`;
+  findOne(id: string) {
+    return this.fruitModel.findById(id);
   }
 
   update(id: number, updateFruitDto: UpdateFruitDto) {
