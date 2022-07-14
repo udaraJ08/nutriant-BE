@@ -6,18 +6,32 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { FruitsService } from './fruits.service';
 import { CreateFruitDto } from './dto/create-fruit.dto';
 import { UpdateFruitDto } from './dto/update-fruit.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Multer } from 'multer';
 
 @Controller('fruits')
 export class FruitsController {
   constructor(private readonly fruitsService: FruitsService) {}
 
   @Post()
-  create(@Body() createFruitDto: CreateFruitDto) {
-    return this.fruitsService.create(createFruitDto);
+  @UseInterceptors(FileInterceptor('image'))
+  create(
+    @UploadedFile() file: Multer.File,
+    @Body() createFruitDto: CreateFruitDto,
+  ) {
+    return this.fruitsService.create(createFruitDto, file, file.originalname);
+  }
+
+  @Post('/test')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(@UploadedFile() file: Multer.File) {
+    return this.fruitsService.uploadFile(file, file.originalname);
   }
 
   @Get()
